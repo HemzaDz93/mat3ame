@@ -1,0 +1,59 @@
+services:
+  # ------------------------------------------------------------------
+  # التطبيق (Apache + PHP 8.2)
+  # ------------------------------------------------------------------
+  app:
+    build:
+      context: .
+    image: mat3am-app:latest
+    container_name: mat3am-app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./.env.docker:/var/www/html/.env
+      - storage_data:/var/www/html/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ------------------------------------------------------------------
+  # مُنفّذ المهام المجدولة (تنبيهات انتهاء السدادات)
+  # ------------------------------------------------------------------
+  scheduler:
+    image: mat3am-app:latest
+    container_name: mat3am-scheduler
+    restart: unless-stopped
+    command: ["php", "artisan", "schedule:work"]
+    environment:
+      SKIP_SETUP: "1"
+    volumes:
+      - ./.env.docker:/var/www/html/.env
+      - storage_data:/var/www/html/storage
+    depends_on:
+      - app
+
+  # ------------------------------------------------------------------
+  # قاعدة البيانات
+  # ------------------------------------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: mat3am-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: zawia
+      MYSQL_USER: zawia
+      MYSQL_PASSWORD: zawia_secret
+      MYSQL_ROOT_PASSWORD: root_secret
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db_data:
+  storage_data:

@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File .\scripts\start-platform.ps1

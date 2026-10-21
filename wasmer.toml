@@ -1,0 +1,23 @@
+# ==================================================================
+#  Wasmer Edge — تعريف حزمة التشغيل (لا تعدّل هذا الملف)
+#  التشغيل المحلي:  wasmer run .
+#  النشر:           wasmer deploy
+# ==================================================================
+
+[dependencies]
+"php/php" = "=8.3.4"
+
+# جذر المشروع كامل يُربط داخل الحزمة على /app
+[fs]
+"/app/" = "."
+
+[[command]]
+name = "run"
+module = "php/php:php"
+runner = "wasi"
+
+[command.annotations.wasi]
+# تشغيل خادم PHP المدمج مع توجيه الجذر إلى مجلد public
+main-args = ["-t", "/app/public", "-S", "localhost:8080"]
+# استخدام إعدادات php.ini المرفقة في wasmer/php.ini
+env = ["PHPRC=/app/wasmer/"]

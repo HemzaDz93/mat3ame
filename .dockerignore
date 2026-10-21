@@ -1,0 +1,32 @@
+# لا تُرسل هذه الملفات إلى صورة Docker
+.git
+.gitignore
+.env
+.env.example
+.env.backup
+.env.production
+
+# الاعتماديات تُثبَّت داخل الصورة
+node_modules
+vendor
+public/build
+public/hot
+
+# بيانات محلية لا تُنقل إلى الحاوية
+storage/app/private/*
+storage/app/public/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+database/*.sqlite
+database/*.sqlite-journal
+
+# ملفات غير لازمة في الإنتاج
+scripts/
+tests/
+phpunit.xml
+*.log
+.DS_Store
+.idea
+.vscode

@@ -1,0 +1,36 @@
+kind: wasmer.io/App.v0
+
+# اسم التطبيق (سيظهر في الرابط: https://mat3am-USERNAME.wasmer.app)
+name: mat3am
+
+# ⚠️ استبدل هذا باسم حسابك في Wasmer (يمكن معرفته بالأمر: wasmer whoami)
+owner: YOUR-WASMER-USERNAME
+
+# الحزمة المحلية (سيتم بناؤها من wasmer.toml بجانب هذا الملف)
+package: .
+
+capabilities:
+  # قاعدة بيانات MySQL مُدارة تُوفَّر تلقائياً، وتُحقن بياناتها كمتغيرات بيئة
+  database:
+    engine: mysql
+
+  # تسريع الإقلاع البارد (Laravel يستورد ملفات كثيرة)
+  instaboot:
+    requests:
+      - path: /
+
+# كل خيط يشغّل عاملاً واحداً (مناسب لخادم PHP المدمج)
+scaling:
+  mode: single_concurrency
+
+# تخزين دائم للملفات المرفوعة (المستندات، الصور)
+# بدون هذا القسم تُفقد الملفات عند كل إعادة نشر.
+volumes:
+  - name: storage
+    mount: /app/storage/app
+
+# يجب تحديد منطقة واحدة فقط عند استخدام قاعدة بيانات.
+# fr-roub1 (فرنسا) هي الأقرب للجزائر.
+locality:
+  regions:
+    - fr-roub1

@@ -1,0 +1,47 @@
+/* ============================================================
+   ورقة البطاقات — تنسيق A4 (بطاقتان × خمسة صفوف = 10 بطاقات)
+   تصميم البطاقة نفسها في card.css
+   ============================================================ */
+:root {
+    --card-gap-x: 2mm;
+    --card-gap-y: 2mm;
+}
+
+.cards-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+
+.card-sheet {
+    background: #fff;
+    width: 210mm;
+    margin: 0 auto;
+    padding: 8mm;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, var(--card-w, 96mm));
+    grid-auto-rows: var(--card-h, 54mm);
+    column-gap: var(--card-gap-x);
+    row-gap: var(--card-gap-y);
+    justify-content: space-between;
+}
+
+@media print {
+    @page { size: A4 portrait; margin: 8mm; }
+    .cards-toolbar { display: none !important; }
+    .card-sheet { padding: 0; width: auto; break-after: page; page-break-after: always; }
+    .card-sheet:last-child { break-after: auto; page-break-after: auto; }
+    .id-card { break-inside: avoid; page-break-inside: avoid; }
+    .cards-grid { row-gap: var(--card-gap-y); }
+
+    /* طباعة الوجه الأمامي فقط */
+    body.print-front .print-back-side { display: none !important; }
+    /* طباعة الوجه الخلفي فقط */
+    body.print-back .print-front-side { display: none !important; }
+    /* الوجه الخلفي: عكس ترتيب الأعمدة لمطابقة الوجه الأمامي على الحافة الطويلة */
+    body.duplex .print-back-side .cards-grid { direction: ltr; }
+    body.duplex .print-back-side .id-card { direction: rtl; }
+}
+
+@media screen {
+    body.print-layout { background: #eef2f6; }
+}

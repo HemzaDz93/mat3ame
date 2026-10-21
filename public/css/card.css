@@ -1,0 +1,100 @@
+/* ============================================================
+   بطاقة التعريف — تصميم قابل للتحكّم بالكامل عبر متغيّرات CSS
+   المتغيّرات تُولَّد من إعدادات المنصة (partials/card-style)
+   ============================================================ */
+
+.id-card {
+    width: var(--card-w, 96mm);
+    height: var(--card-h, 54mm);
+    border: var(--card-border-w, .3mm) solid var(--card-border-color, #94a3b8);
+    border-radius: var(--card-radius, 3mm);
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    color: #1e293b;
+    font-family: var(--card-font, "Cairo", "Segoe UI", Tahoma, sans-serif);
+    font-size: var(--card-font-size, 8.2pt);
+    line-height: 1.35;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ---------- الترويسة ---------- */
+.id-card .card-top {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    padding: 1.4mm 2mm;
+    border-bottom: .4mm solid var(--card-primary, #0e7490);
+    background: var(--card-header-bg, #f8fafc);
+}
+.id-card .card-top .logo {
+    width: var(--card-logo-size, 9mm);
+    height: var(--card-logo-size, 9mm);
+    object-fit: contain;
+}
+.id-card .official {
+    flex: 1;
+    text-align: center;
+    font-size: var(--card-official-size, 6.4pt);
+    line-height: 1.25;
+}
+.id-card .official .rep { font-weight: 700; }
+.id-card .official .inst { font-size: var(--card-inst-size, 7.6pt); font-weight: 700; color: #0b2f3f; }
+.id-card .official .card-kind {
+    display: inline-block;
+    margin-top: .4mm;
+    padding-top: .3mm;
+    border-top: .25mm dotted var(--card-border-color, #cbd5e1);
+    font-family: var(--card-label-font, "Reem Kufi", "Cairo", sans-serif);
+    font-size: var(--card-label-size, 7.6pt);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: .2px;
+    color: var(--card-label-color, #0c5f75);
+}
+
+/* ---------- المتن ---------- */
+.id-card .card-body { display: flex; gap: 2mm; padding: 1.6mm 2mm; flex: 1; }
+.id-card .photo-slot { flex: 0 0 auto; }
+.id-card .logo-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: .3mm dashed #cbd5e1;
+    border-radius: 1mm;
+    font-size: 5.6pt;
+    color: #94a3b8;
+}
+.id-card .photo {
+    width: var(--card-photo-w, 17mm);
+    height: var(--card-photo-h, 21mm);
+    object-fit: cover;
+    border: .4mm solid #cbd5e1;
+    border-radius: 1mm;
+    background: #f1f5f9;
+}
+.id-card .fields { flex: 1; font-size: var(--card-fields-size, 7.4pt); }
+.id-card .fields .row { display: flex; gap: 1mm; margin-bottom: .5mm; }
+.id-card .fields .k { color: #475569; min-width: var(--card-k-w, 15mm); }
+.id-card .fields .v { font-weight: 700; }
+
+/* ---------- الباركود ---------- */
+.id-card .barcode-wrap { text-align: center; padding: .6mm 2mm 1mm; }
+.id-card .barcode-wrap img { height: var(--card-barcode-h, 7mm); }
+.id-card .barcode-wrap .code { font-size: 6.2pt; letter-spacing: .5px; }
+
+/* ---------- الوجه الخلفي ---------- */
+.id-card .card-back { flex: 1; display: flex; gap: 2mm; padding: 1.6mm 2mm; align-items: center; }
+.id-card .qr-wrap { text-align: center; }
+.id-card .qr-wrap img { width: var(--card-qr-size, 22mm); height: var(--card-qr-size, 22mm); }
+.id-card .back-info { flex: 1; font-size: var(--card-fields-size, 7.6pt); }
+.id-card .back-info .row + .row { margin-top: 1mm; }
+.id-card .back-info .k { color: #475569; }
+
+/* ---------- الأسفل ---------- */
+.id-card .corner-note { position: absolute; bottom: .6mm; left: 2mm; font-size: 5.6pt; color: #64748b; }
+.id-card .card-foot { position: absolute; bottom: .6mm; right: 2mm; font-size: 5.6pt; color: #64748b; }
+
+/* عنصر مُطفأ من إعدادات التصميم */
+.id-card .is-off { display: none !important; }

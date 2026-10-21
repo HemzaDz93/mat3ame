@@ -1,0 +1,29 @@
+# ============================================================
+# حماية وتوجيه جذر مشروع mat3am
+# نقطة الدخول العامة هي مجلد public فقط (حيث public/index.php).
+#
+# هذا الملف يعمل في الحالتين:
+#   1) استضافة InfinityFree: جذر الموقع هو htdocs = جذر المشروع،
+#      لذا تُمرَّر كل الطلبات داخليًا إلى public/.
+#   2) محليًا عبر XAMPP: الموقع في htdocs/mat3am، والرابط
+#      .../mat3am/public يعمل كما هو.
+#
+# النتيجة: يمنع تحميل .env و app/ و config/ و storage/ و vendor/
+# عبر المتصفح، ويعطّل عرض محتوى المجلدات (Directory Listing).
+# ============================================================
+
+# تعطيل عرض فهرس المجلدات و MultiViews
+Options -Indexes -MultiViews
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # إن كان الطلب يشير أصلًا إلى public/ فلا نعيد كتابته (يمنع الحلقات)
+    RewriteCond %{REQUEST_URI} !/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# احتياط إضافي: حجب الملفات الحساسة حتى لو تعطّل mod_rewrite
+<FilesMatch "(^\.|\.env($|\.)|\.(key|pem|sql|sqlite|log)$|composer\.(json|lock)$|package(-lock)?\.json$|artisan$|phpunit\.xml$)">
+    Require all denied
+</FilesMatch>
